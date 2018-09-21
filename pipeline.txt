@@ -1,0 +1,47 @@
+node('master')
+ 
+{
+
+    stage('contuninus download') 
+ 
+   {
+ 
+  git 'https://github.com/selenium-saikrishna/maven.git'
+
+
+}
+
+stage('contuninus build') 
+  
+  {
+       
+ sh 'mvn package'
+
+}
+
+stage('contuninus deployee') 
+
+    {
+        
+sh 'scp /var/lib/jenkins/workspace/pipeline/webapp/target/webapp.war ubuntu@172.31.20.196:/var/lib/tomcat7/webapps/qaserver.war'
+
+}
+
+stage('contuninus testing') 
+   
+ {
+      
+ 
+git 'https://github.com/selenium-saikrishna/FunctionalTesting.git'
+
+}
+
+stage('contuninus delivery') 
+  
+  {
+
+sh 'scp /var/lib/jenkins/workspace/pipeline/webapp/target/webapp.war ubuntu@172.31.22.192:/var/lib/tomcat7/webapps/prodserver1.war'
+
+}
+
+}
